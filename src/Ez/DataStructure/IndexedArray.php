@@ -3,7 +3,6 @@
 namespace Ez\DataStructure;
 
 use Ez\DataStructure\Exception\IndexNotExistException;
-use Ez\Util\ArrayDeepMerger;
 
 /**
  * Class IndexedArray
@@ -24,51 +23,16 @@ class IndexedArray
     protected $array = array();
 
     /**
-     * @var ArrayDeepMerger
-     */
-    protected $arrayDeepMerger = null;
-
-    /**
-     * Each array can be passed through as many as needed
-     * and will be recursively merged together.
+     * Constructor.
+     * Set the php array and the delimiter to use.
      *
      */
-    public function __construct()
+    public function __construct(array $array = null, $delimiter = '/')
     {
-        // Take over whatever array passed and merge them in sequence.
-        $args = func_get_args();
-        if (count($args) > 0) {
-            foreach ($args as $a) {
-                if (is_array($a)) {
-                    $this->array = $this->getArrayDeepMerger()->mergeDistinct($this->array, $a);
-                }
-            }
+        if (isset($array)) {
+            $this->array = $array;
         }
-    }
-
-    /**
-     * Set the array deep merger.
-     *
-     * @param ArrayDeepMerger $arrayDeepMerger
-     * @return $this
-     */
-    public function setArrayDeepMerger(ArrayDeepMerger $arrayDeepMerger)
-    {
-        $this->arrayDeepMerger = $arrayDeepMerger;
-        return $this;
-    }
-
-    /**
-     * Get the array deep merger.
-     *
-     * @return ArrayDeepMerger
-     */
-    public function getArrayDeepMerger()
-    {
-        if (!isset($this->arrayDeepMerger)) {
-            $this->arrayDeepMerger = new ArrayDeepMerger();
-        }
-        return $this->arrayDeepMerger;
+        $this->delimiter = $delimiter;
     }
 
     /**
@@ -87,16 +51,6 @@ class IndexedArray
     public function getDelimiter()
     {
         return $this->delimiter;
-    }
-
-    /**
-     * @param array $array
-     * @return $this
-     */
-    public function addArray(array $array)
-    {
-        $this->array = $this->getArrayDeepMerger()->mergeDistinct($this->array, $array);
-        return $this;
     }
 
     /**

@@ -2,15 +2,15 @@
 
 namespace Ez\DataStructure\Tests;
 
-use Ez\DataStructure\IndexedArray;
+use Ez\DataStructure\IndexedDeepMergeArray;
 
 /**
- * Class IndexedArrayTest
+ * Class IndexedDeepMergeArrayTest
  *
  * @package Balance\MageWatchBundle\Tests\Outside\Ez\DataStructure
  * @author Derek Li
  */
-class IndexedArrayTest extends \PHPUnit_Framework_TestCase
+class IndexedDeepMergeArrayTest extends \PHPUnit_Framework_TestCase
 {
     public function indexedArrayProvider()
     {
@@ -31,14 +31,14 @@ class IndexedArrayTest extends \PHPUnit_Framework_TestCase
                 'b32'
             ),
         );
-        $attrAccessor = new IndexedArray($array);
+        $attrAccessor = new IndexedDeepMergeArray($array);
         return array(array($attrAccessor, $array));
     }
 
     /**
      * @dataProvider indexedArrayProvider
      */
-    public function testGet(IndexedArray $indexedArray, array $array)
+    public function testGet(IndexedDeepMergeArray $indexedArray, array $array)
     {
         $this->assertEquals($array, $indexedArray->getArray());
         $this->assertEquals($array, $indexedArray->get(''));
@@ -53,7 +53,7 @@ class IndexedArrayTest extends \PHPUnit_Framework_TestCase
      * @dataProvider indexedArrayProvider
      * @expectedException \Ez\DataStructure\Exception\IndexNotExistException
      */
-    public function testGetException(IndexedArray $indexedArray)
+    public function testGetException(IndexedDeepMergeArray $indexedArray)
     {
         $indexedArray->get('c');
     }
@@ -137,10 +137,10 @@ class IndexedArrayTest extends \PHPUnit_Framework_TestCase
             'a6' => 'b6',
             'a4' => 'c4'
         );
-        $attrAccessor1 = new IndexedArray($array1, $array2, $array3);
-        $attrAccessor2 = new IndexedArray($array1, $array2);
+        $attrAccessor1 = new IndexedDeepMergeArray($array1, $array2, $array3);
+        $attrAccessor2 = new IndexedDeepMergeArray($array1, $array2);
         $attrAccessor2->addArray($array3);
-        $attrAccessor3 = new IndexedArray();
+        $attrAccessor3 = new IndexedDeepMergeArray();
         $attrAccessor3
             ->addArray($array1)
             ->addArray($array2)
